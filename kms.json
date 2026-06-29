@@ -1,0 +1,39 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Intentionally insecure KMS key for VectorPlane remediation E2E testing",
+  "Resources": {
+    "VPTestKey": {
+      "Type": "AWS::KMS::Key",
+      "Properties": {
+        "Description": "VectorPlane test KMS key - intentionally insecure",
+        "EnableKeyRotation": false,
+        "Enabled": true,
+        "KeyPolicy": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Sid": "Enable IAM User Permissions",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:root" }
+              },
+              "Action": "kms:*",
+              "Resource": "*"
+            }
+          ]
+        },
+        "Tags": [
+          { "Key": "Environment", "Value": "test" },
+          { "Key": "ManagedBy", "Value": "vectorplane-e2e-test" }
+        ]
+      }
+    },
+    "VPTestKeyAlias": {
+      "Type": "AWS::KMS::Alias",
+      "Properties": {
+        "AliasName": "alias/vp-test-key",
+        "TargetKeyId": { "Ref": "VPTestKey" }
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Intentionally insecure ECS cluster for VectorPlane remediation E2E testing",
+  "Resources": {
+    "VPTestCluster": {
+      "Type": "AWS::ECS::Cluster",
+      "Properties": {
+        "ClusterName": "vp-test-cluster",
+        "Tags": [
+          { "Key": "Environment", "Value": "test" },
+          { "Key": "ManagedBy", "Value": "vectorplane-e2e-test" }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Intentionally insecure RDS instances for VectorPlane remediation E2E testing",
+  "Parameters": {
+    "DBMasterUsername": {
+      "Type": "String",
+      "Default": "admin",
+      "Description": "Master username for RDS instances"
+    },
+    "DBMasterPassword": {
+      "Type": "String",
+      "NoEcho": true,
+      "Default": "changeme123!",
+      "Description": "Master password for RDS instances"
+    }
+  },
+  "Resources": {
+    "VPTestPaymentsDB": {
+      "Type": "AWS::RDS::DBInstance",
+      "Properties": {
+        "DBInstanceClass": "db.t3.micro",
+        "Engine": "mysql",
+        "EngineVersion": "8.0",
+        "MasterUsername": { "Ref": "DBMasterUsername" },
+        "MasterUserPassword": { "Ref": "DBMasterPassword" },
+        "AllocatedStorage": "20",
+        "PubliclyAccessible": true,
+        "MultiAZ": false,
+        "DeletionProtection": false,
+        "BackupRetentionPeriod": 0,
+        "Tags": [
+          { "Key": "Environment", "Value": "test" },
+          { "Key": "ManagedBy", "Value": "vectorplane-e2e-test" }
+        ]
+      },
+      "DeletionPolicy": "Delete"
+    },
+    "VPTestAnalyticsDB": {
+      "Type": "AWS::RDS::DBInstance",
+      "Properties": {
+        "DBInstanceClass": "db.t3.micro",
+        "Engine": "postgres",
+        "EngineVersion": "14",
+        "MasterUsername": { "Ref": "DBMasterUsername" },
+        "MasterUserPassword": { "Ref": "DBMasterPassword" },
+        "AllocatedStorage": "20",
+        "PubliclyAccessible": true,
+        "MultiAZ": false,
+        "DeletionProtection": false,
+        "BackupRetentionPeriod": 0,
+        "Tags": [
+          { "Key": "Environment", "Value": "test" },
+          { "Key": "ManagedBy", "Value": "vectorplane-e2e-test" }
+        ]
+      },
+      "DeletionPolicy": "Delete"
+    }
+  }
+}

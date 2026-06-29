@@ -1,0 +1,29 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Intentionally insecure SNS and SQS resources for VectorPlane remediation E2E testing",
+  "Resources": {
+    "VPTestNotifications": {
+      "Type": "AWS::SNS::Topic",
+      "Properties": {
+        "TopicName": "vp-test-notifications",
+        "DisplayName": "VP Test Notifications",
+        "Tags": [
+          { "Key": "Environment", "Value": "test" },
+          { "Key": "ManagedBy", "Value": "vectorplane-e2e-test" }
+        ]
+      }
+    },
+    "VPTestWorkQueue": {
+      "Type": "AWS::SQS::Queue",
+      "Properties": {
+        "QueueName": "vp-test-work-queue",
+        "VisibilityTimeout": 30,
+        "MessageRetentionPeriod": 345600,
+        "Tags": [
+          { "Key": "Environment", "Value": "test" },
+          { "Key": "ManagedBy", "Value": "vectorplane-e2e-test" }
+        ]
+      }
+    }
+  }
+}

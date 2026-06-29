@@ -1,0 +1,62 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Intentionally insecure EC2 instances for VectorPlane remediation E2E testing",
+  "Parameters": {
+    "SubnetId": {
+      "Type": "String",
+      "Default": "subnet-00000000",
+      "Description": "Subnet ID to launch EC2 instances in"
+    },
+    "SecurityGroupId": {
+      "Type": "String",
+      "Default": "sg-00000000",
+      "Description": "Security Group ID to attach to EC2 instances"
+    }
+  },
+  "Resources": {
+    "VPTestWebServer": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "ImageId": "ami-0c02fb55956c7d316",
+        "InstanceType": "t3.micro",
+        "MetadataOptions": {
+          "HttpTokens": "optional",
+          "HttpEndpoint": "enabled"
+        },
+        "NetworkInterfaces": [
+          {
+            "AssociatePublicIpAddress": true,
+            "DeviceIndex": "0",
+            "SubnetId": { "Ref": "SubnetId" },
+            "GroupSet": [{ "Ref": "SecurityGroupId" }]
+          }
+        ],
+        "Tags": [
+          { "Key": "Environment", "Value": "test" },
+          { "Key": "ManagedBy", "Value": "vectorplane-e2e-test" },
+          { "Key": "Name", "Value": "vp-test-web-server" }
+        ]
+      }
+    },
+    "VPTestBastion": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "ImageId": "ami-0c02fb55956c7d316",
+        "InstanceType": "t3.micro",
+        "NetworkInterfaces": [
+          {
+            "AssociatePublicIpAddress": true,
+            "DeviceIndex": "0",
+            "SubnetId": { "Ref": "SubnetId" },
+            "GroupSet": [{ "Ref": "SecurityGroupId" }]
+          }
+        ],
+        "Tags": [
+          { "Key": "Environment", "Value": "test" },
+          { "Key": "ManagedBy", "Value": "vectorplane-e2e-test" },
+          { "Key": "Name", "Value": "vp-test-bastion" }
+        ]
+      }
+    }
+  }
+}

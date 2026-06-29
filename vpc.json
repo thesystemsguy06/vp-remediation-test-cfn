@@ -1,0 +1,80 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Intentionally insecure VPC and subnets for VectorPlane remediation E2E testing",
+  "Resources": {
+    "VPTestVPC": {
+      "Type": "AWS::EC2::VPC",
+      "Properties": {
+        "CidrBlock": "10.0.0.0/16",
+        "EnableDnsHostnames": true,
+        "EnableDnsSupport": true,
+        "Tags": [
+          { "Key": "Environment", "Value": "test" },
+          { "Key": "ManagedBy", "Value": "vectorplane-e2e-test" },
+          { "Key": "Name", "Value": "vp-test-vpc" }
+        ]
+      }
+    },
+    "VPTestPublicSubnet": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "VpcId": { "Ref": "VPTestVPC" },
+        "CidrBlock": "10.0.1.0/24",
+        "AvailabilityZone": "us-east-1a",
+        "MapPublicIpOnLaunch": true,
+        "Tags": [
+          { "Key": "Environment", "Value": "test" },
+          { "Key": "ManagedBy", "Value": "vectorplane-e2e-test" },
+          { "Key": "Name", "Value": "vp-test-public-subnet" }
+        ]
+      }
+    },
+    "VPTestPrivateSubnet": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "VpcId": { "Ref": "VPTestVPC" },
+        "CidrBlock": "10.0.2.0/24",
+        "AvailabilityZone": "us-east-1b",
+        "MapPublicIpOnLaunch": false,
+        "Tags": [
+          { "Key": "Environment", "Value": "test" },
+          { "Key": "ManagedBy", "Value": "vectorplane-e2e-test" },
+          { "Key": "Name", "Value": "vp-test-private-subnet" }
+        ]
+      }
+    },
+    "VPTestInternetGateway": {
+      "Type": "AWS::EC2::InternetGateway",
+      "Properties": {
+        "Tags": [
+          { "Key": "Environment", "Value": "test" },
+          { "Key": "ManagedBy", "Value": "vectorplane-e2e-test" }
+        ]
+      }
+    },
+    "VPTestVPCGatewayAttachment": {
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+      "Properties": {
+        "VpcId": { "Ref": "VPTestVPC" },
+        "InternetGatewayId": { "Ref": "VPTestInternetGateway" }
+      }
+    }
+  },
+  "Outputs": {
+    "VPCId": {
+      "Description": "VPC ID",
+      "Value": { "Ref": "VPTestVPC" },
+      "Export": { "Name": "VPTestVPCId" }
+    },
+    "PublicSubnetId": {
+      "Description": "Public Subnet ID",
+      "Value": { "Ref": "VPTestPublicSubnet" },
+      "Export": { "Name": "VPTestPublicSubnetId" }
+    },
+    "PrivateSubnetId": {
+      "Description": "Private Subnet ID",
+      "Value": { "Ref": "VPTestPrivateSubnet" },
+      "Export": { "Name": "VPTestPrivateSubnetId" }
+    }
+  }
+}

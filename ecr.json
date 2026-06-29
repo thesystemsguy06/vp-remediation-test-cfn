@@ -1,0 +1,17 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Intentionally insecure ECR repository for VectorPlane remediation E2E testing",
+  "Resources": {
+    "VPTestAppRepo": {
+      "Type": "AWS::ECR::Repository",
+      "Properties": {
+        "RepositoryName": "vp-test-app-repo",
+        "ImageTagMutability": "MUTABLE",
+        "Tags": [
+          { "Key": "Environment", "Value": "test" },
+          { "Key": "ManagedBy", "Value": "vectorplane-e2e-test" }
+        ]
+      }
+    }
+  }
+}

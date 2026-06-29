@@ -1,0 +1,36 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Intentionally insecure EBS volumes for VectorPlane remediation E2E testing",
+  "Resources": {
+    "VPTestDataVol": {
+      "Type": "AWS::EC2::Volume",
+      "Properties": {
+        "AvailabilityZone": "us-east-1a",
+        "Size": 50,
+        "VolumeType": "gp3",
+        "Encrypted": false,
+        "Tags": [
+          { "Key": "Environment", "Value": "test" },
+          { "Key": "ManagedBy", "Value": "vectorplane-e2e-test" },
+          { "Key": "Name", "Value": "vp-test-data-vol" }
+        ]
+      },
+      "DeletionPolicy": "Delete"
+    },
+    "VPTestBackupVol": {
+      "Type": "AWS::EC2::Volume",
+      "Properties": {
+        "AvailabilityZone": "us-east-1b",
+        "Size": 100,
+        "VolumeType": "gp3",
+        "Encrypted": false,
+        "Tags": [
+          { "Key": "Environment", "Value": "test" },
+          { "Key": "ManagedBy", "Value": "vectorplane-e2e-test" },
+          { "Key": "Name", "Value": "vp-test-backup-vol" }
+        ]
+      },
+      "DeletionPolicy": "Delete"
+    }
+  }
+}

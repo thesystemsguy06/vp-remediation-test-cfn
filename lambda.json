@@ -1,0 +1,49 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Intentionally insecure Lambda functions for VectorPlane remediation E2E testing",
+  "Parameters": {
+    "LambdaExecutionRoleArn": {
+      "Type": "String",
+      "Default": "arn:aws:iam::123456789012:role/lambda-execution-role",
+      "Description": "IAM Role ARN for Lambda execution"
+    }
+  },
+  "Resources": {
+    "VPTestApiHandler": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "FunctionName": "vp-test-api-handler",
+        "Runtime": "python3.12",
+        "Handler": "index.handler",
+        "Role": { "Ref": "LambdaExecutionRoleArn" },
+        "Code": {
+          "ZipFile": "def handler(event, context):\n    return {'statusCode': 200, 'body': 'Hello from VPTestApiHandler'}\n"
+        },
+        "Timeout": 30,
+        "MemorySize": 128,
+        "Tags": [
+          { "Key": "Environment", "Value": "test" },
+          { "Key": "ManagedBy", "Value": "vectorplane-e2e-test" }
+        ]
+      }
+    },
+    "VPTestProcessor": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "FunctionName": "vp-test-processor",
+        "Runtime": "python3.12",
+        "Handler": "index.handler",
+        "Role": { "Ref": "LambdaExecutionRoleArn" },
+        "Code": {
+          "ZipFile": "def handler(event, context):\n    return {'statusCode': 200, 'body': 'Hello from VPTestProcessor'}\n"
+        },
+        "Timeout": 60,
+        "MemorySize": 256,
+        "Tags": [
+          { "Key": "Environment", "Value": "test" },
+          { "Key": "ManagedBy", "Value": "vectorplane-e2e-test" }
+        ]
+      }
+    }
+  }
+}
