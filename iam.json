@@ -1,0 +1,16 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Intentionally insecure IAM resources for VectorPlane remediation E2E testing",
+  "Resources": {
+    "VPTestUser": {
+      "Type": "AWS::IAM::User",
+      "Properties": {
+        "UserName": "vp-test-user",
+        "Tags": [
+          { "Key": "Environment", "Value": "test" },
+          { "Key": "ManagedBy", "Value": "vectorplane-e2e-test" }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Intentionally insecure OpenSearch domain for VectorPlane remediation E2E testing",
+  "Resources": {
+    "VPTestDomain": {
+      "Type": "AWS::OpenSearch::Domain",
+      "Properties": {
+        "DomainName": "vp-test-codifier",
+        "EngineVersion": "OpenSearch_2.5",
+        "ClusterConfig": {
+          "InstanceType": "t3.small.search",
+          "InstanceCount": 1
+        },
+        "EBSOptions": {
+          "EBSEnabled": true,
+          "VolumeSize": 10,
+          "VolumeType": "gp3"
+        },
+        "Tags": [
+          { "Key": "Environment", "Value": "test" },
+          { "Key": "ManagedBy", "Value": "vectorplane-e2e-test" }
+        ]
+      }
+    }
+  }
+}

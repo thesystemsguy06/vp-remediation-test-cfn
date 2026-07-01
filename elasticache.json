@@ -1,0 +1,20 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Intentionally insecure ElastiCache for VectorPlane remediation E2E testing",
+  "Resources": {
+    "VPTestRG": {
+      "Type": "AWS::ElastiCache::ReplicationGroup",
+      "Properties": {
+        "ReplicationGroupDescription": "VP test replication group",
+        "Engine": "redis",
+        "CacheNodeType": "cache.t3.micro",
+        "NumCacheClusters": 1,
+        "AutomaticFailoverEnabled": false,
+        "Tags": [
+          { "Key": "Environment", "Value": "test" },
+          { "Key": "ManagedBy", "Value": "vectorplane-e2e-test" }
+        ]
+      }
+    }
+  }
+}
