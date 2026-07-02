@@ -5,7 +5,7 @@
     "VPTestNotifications": {
       "Type": "AWS::SNS::Topic",
       "Properties": {
-        "TopicName": "vp-test-notifications",
+        "TopicName": "vp-cfn-test-notifications",
         "DisplayName": "VP Test Notifications",
         "Tags": [
           { "Key": "Environment", "Value": "test" },
@@ -16,7 +16,7 @@
     "VPTestWorkQueue": {
       "Type": "AWS::SQS::Queue",
       "Properties": {
-        "QueueName": "vp-test-work-queue",
+        "QueueName": "vp-cfn-test-work-queue",
         "VisibilityTimeout": 30,
         "MessageRetentionPeriod": 345600,
         "Tags": [

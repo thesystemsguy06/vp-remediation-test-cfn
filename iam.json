@@ -5,7 +5,7 @@
     "VPTestUser": {
       "Type": "AWS::IAM::User",
       "Properties": {
-        "UserName": "vp-test-user",
+        "UserName": "vp-cfn-test-user",
         "Tags": [
           { "Key": "Environment", "Value": "test" },
           { "Key": "ManagedBy", "Value": "vectorplane-e2e-test" }

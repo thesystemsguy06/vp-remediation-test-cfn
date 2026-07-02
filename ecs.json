@@ -5,7 +5,7 @@
     "VPTestCluster": {
       "Type": "AWS::ECS::Cluster",
       "Properties": {
-        "ClusterName": "vp-test-cluster",
+        "ClusterName": "vp-cfn-test-cluster",
         "Tags": [
           { "Key": "Environment", "Value": "test" },
           { "Key": "ManagedBy", "Value": "vectorplane-e2e-test" }
