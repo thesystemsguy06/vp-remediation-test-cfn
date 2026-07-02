@@ -17,9 +17,28 @@
           "VolumeType": "gp3"
         },
         "Tags": [
-          { "Key": "Environment", "Value": "test" },
-          { "Key": "ManagedBy", "Value": "vectorplane-e2e-test" }
+          {
+            "Key": "Environment",
+            "Value": "test"
+          },
+          {
+            "Key": "ManagedBy",
+            "Value": "vectorplane-e2e-test"
+          }
         ]
+      }
+    },
+    "VPTestDomainOsLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "RetentionInDays": 30
+      }
+    },
+    "VPTestDomainOsLogResourcePolicy": {
+      "Type": "AWS::Logs::ResourcePolicy",
+      "Properties": {
+        "PolicyName": "VPTestDomain-opensearch-log-policy",
+        "PolicyDocument": "{\"Version\": \"2012-10-17\", \"Statement\": [{\"Effect\": \"Allow\", \"Principal\": {\"Service\": \"es.amazonaws.com\"}, \"Action\": [\"logs:PutLogEvents\", \"logs:CreateLogStream\"], \"Resource\": \"*\"}]}"
       }
     }
   }
