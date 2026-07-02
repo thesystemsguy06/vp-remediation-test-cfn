@@ -17,9 +17,18 @@
           "VolumeType": "gp3"
         },
         "Tags": [
-          { "Key": "Environment", "Value": "test" },
-          { "Key": "ManagedBy", "Value": "vectorplane-e2e-test" }
-        ]
+          {
+            "Key": "Environment",
+            "Value": "test"
+          },
+          {
+            "Key": "ManagedBy",
+            "Value": "vectorplane-e2e-test"
+          }
+        ],
+        "SoftwareUpdateOptions": {
+          "AutoSoftwareUpdateEnabled": true
+        }
       }
     }
   }
