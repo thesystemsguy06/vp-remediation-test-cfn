@@ -6,17 +6,38 @@
       "Type": "AWS::S3::Bucket",
       "Properties": {
         "Tags": [
-          { "Key": "Environment", "Value": "test" },
-          { "Key": "ManagedBy", "Value": "vectorplane-e2e-test" }
-        ]
+          {
+            "Key": "Environment",
+            "Value": "test"
+          },
+          {
+            "Key": "ManagedBy",
+            "Value": "vectorplane-e2e-test"
+          }
+        ],
+        "LifecycleConfiguration": {
+          "Rules": [
+            {
+              "Id": "cleanup",
+              "Status": "Enabled",
+              "ExpirationInDays": 90
+            }
+          ]
+        }
       }
     },
     "VPTestLogsBucket": {
       "Type": "AWS::S3::Bucket",
       "Properties": {
         "Tags": [
-          { "Key": "Environment", "Value": "test" },
-          { "Key": "ManagedBy", "Value": "vectorplane-e2e-test" }
+          {
+            "Key": "Environment",
+            "Value": "test"
+          },
+          {
+            "Key": "ManagedBy",
+            "Value": "vectorplane-e2e-test"
+          }
         ]
       }
     },
@@ -24,8 +45,14 @@
       "Type": "AWS::S3::Bucket",
       "Properties": {
         "Tags": [
-          { "Key": "Environment", "Value": "test" },
-          { "Key": "ManagedBy", "Value": "vectorplane-e2e-test" }
+          {
+            "Key": "Environment",
+            "Value": "test"
+          },
+          {
+            "Key": "ManagedBy",
+            "Value": "vectorplane-e2e-test"
+          }
         ]
       }
     }
