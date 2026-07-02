@@ -11,9 +11,16 @@
         "NumCacheClusters": 1,
         "AutomaticFailoverEnabled": false,
         "Tags": [
-          { "Key": "Environment", "Value": "test" },
-          { "Key": "ManagedBy", "Value": "vectorplane-e2e-test" }
-        ]
+          {
+            "Key": "Environment",
+            "Value": "test"
+          },
+          {
+            "Key": "ManagedBy",
+            "Value": "vectorplane-e2e-test"
+          }
+        ],
+        "AtRestEncryptionEnabled": true
       }
     }
   }
