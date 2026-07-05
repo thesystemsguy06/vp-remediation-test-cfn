@@ -4,7 +4,7 @@
   "Parameters": {
     "DBMasterUsername": {
       "Type": "String",
-      "Default": "admin",
+      "Default": "dbadmin",
       "Description": "Master username for RDS instances"
     },
     "DBMasterPassword": {
@@ -20,17 +20,43 @@
       "Properties": {
         "DBInstanceClass": "db.t3.micro",
         "Engine": "mysql",
-        "EngineVersion": "8.0",
-        "MasterUsername": { "Ref": "DBMasterUsername" },
-        "MasterUserPassword": { "Ref": "DBMasterPassword" },
+        "EngineVersion": "8.0.45",
+        "MasterUsername": {
+          "Ref": "DBMasterUsername"
+        },
+        "MasterUserPassword": {
+          "Ref": "DBMasterPassword"
+        },
         "AllocatedStorage": "20",
-        "PubliclyAccessible": true,
-        "MultiAZ": false,
+        "PubliclyAccessible": false,
+        "MultiAZ": true,
         "DeletionProtection": false,
-        "BackupRetentionPeriod": 0,
+        "BackupRetentionPeriod": 7,
         "Tags": [
-          { "Key": "Environment", "Value": "test" },
-          { "Key": "ManagedBy", "Value": "vectorplane-e2e-test" }
+          {
+            "Key": "Environment",
+            "Value": "test"
+          },
+          {
+            "Key": "ManagedBy",
+            "Value": "vectorplane-e2e-test"
+          }
+        ],
+        "EnableIAMDatabaseAuthentication": true,
+        "AutoMinorVersionUpgrade": true,
+        "CopyTagsToSnapshot": true,
+        "MonitoringInterval": 60,
+        "MonitoringRoleArn": {
+          "Fn::GetAtt": [
+            "VPTestMonitoringRole",
+            "Arn"
+          ]
+        },
+        "EnableCloudwatchLogsExports": [
+          "general",
+          "slowquery",
+          "error",
+          "audit"
         ]
       },
       "DeletionPolicy": "Delete"
@@ -40,20 +66,68 @@
       "Properties": {
         "DBInstanceClass": "db.t3.micro",
         "Engine": "postgres",
-        "EngineVersion": "14",
-        "MasterUsername": { "Ref": "DBMasterUsername" },
-        "MasterUserPassword": { "Ref": "DBMasterPassword" },
+        "EngineVersion": "14.15",
+        "MasterUsername": "pgdbadmin",
+        "MasterUserPassword": {
+          "Ref": "DBMasterPassword"
+        },
         "AllocatedStorage": "20",
-        "PubliclyAccessible": true,
-        "MultiAZ": false,
+        "PubliclyAccessible": false,
+        "MultiAZ": true,
         "DeletionProtection": false,
-        "BackupRetentionPeriod": 0,
+        "BackupRetentionPeriod": 7,
         "Tags": [
-          { "Key": "Environment", "Value": "test" },
-          { "Key": "ManagedBy", "Value": "vectorplane-e2e-test" }
+          {
+            "Key": "Environment",
+            "Value": "test"
+          },
+          {
+            "Key": "ManagedBy",
+            "Value": "vectorplane-e2e-test"
+          }
+        ],
+        "EnableIAMDatabaseAuthentication": true,
+        "AutoMinorVersionUpgrade": true,
+        "CopyTagsToSnapshot": true,
+        "MonitoringInterval": 60,
+        "MonitoringRoleArn": {
+          "Fn::GetAtt": [
+            "VPTestMonitoringRole",
+            "Arn"
+          ]
+        },
+        "EnableCloudwatchLogsExports": [
+          "postgresql",
+          "upgrade"
         ]
       },
       "DeletionPolicy": "Delete"
+    },
+    "VPTestMonitoringRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "monitoring.rds.amazonaws.com"
+              },
+              "Action": "sts:AssumeRole"
+            }
+          ]
+        },
+        "ManagedPolicyArns": [
+          "arn:aws:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"
+        ],
+        "Tags": [
+          {
+            "Key": "ManagedBy",
+            "Value": "vectorplane-e2e-test"
+          }
+        ]
+      }
     }
   }
 }

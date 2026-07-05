@@ -8,12 +8,19 @@
         "ReplicationGroupDescription": "VP test replication group",
         "Engine": "redis",
         "CacheNodeType": "cache.t3.micro",
-        "NumCacheClusters": 1,
-        "AutomaticFailoverEnabled": false,
+        "NumCacheClusters": 2,
+        "AutomaticFailoverEnabled": true,
         "Tags": [
-          { "Key": "Environment", "Value": "test" },
-          { "Key": "ManagedBy", "Value": "vectorplane-e2e-test" }
-        ]
+          {
+            "Key": "Environment",
+            "Value": "test"
+          },
+          {
+            "Key": "ManagedBy",
+            "Value": "vectorplane-e2e-test"
+          }
+        ],
+        "SnapshotRetentionLimit": 7
       }
     }
   }

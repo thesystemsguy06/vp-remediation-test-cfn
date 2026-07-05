@@ -6,11 +6,20 @@
       "Type": "AWS::ECR::Repository",
       "Properties": {
         "RepositoryName": "vp-test-app-repo",
-        "ImageTagMutability": "MUTABLE",
+        "ImageTagMutability": "IMMUTABLE",
         "Tags": [
-          { "Key": "Environment", "Value": "test" },
-          { "Key": "ManagedBy", "Value": "vectorplane-e2e-test" }
-        ]
+          {
+            "Key": "Environment",
+            "Value": "test"
+          },
+          {
+            "Key": "ManagedBy",
+            "Value": "vectorplane-e2e-test"
+          }
+        ],
+        "LifecyclePolicy": {
+          "LifecyclePolicyText": "{\"rules\": [{\"rulePriority\": 1, \"description\": \"Expire untagged images older than 30 days\", \"selection\": {\"tagStatus\": \"untagged\", \"countType\": \"sinceImagePushed\", \"countUnit\": \"days\", \"countNumber\": 30}, \"action\": {\"type\": \"expire\"}}]}"
+        }
       }
     }
   }
