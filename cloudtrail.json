@@ -12,33 +12,54 @@
     "VPTestTrailBucket": {
       "Type": "AWS::S3::Bucket",
       "Properties": {
-        "BucketName": { "Ref": "TrailBucketName" },
+        "BucketName": {
+          "Ref": "TrailBucketName"
+        },
         "Tags": [
-          { "Key": "Environment", "Value": "test" },
-          { "Key": "ManagedBy", "Value": "vectorplane-e2e-test" }
-        ]
+          {
+            "Key": "Environment",
+            "Value": "test"
+          },
+          {
+            "Key": "ManagedBy",
+            "Value": "vectorplane-e2e-test"
+          }
+        ],
+        "LoggingConfiguration": {
+          "LogFilePrefix": "access-logs/"
+        }
       }
     },
     "VPTestTrailBucketPolicy": {
       "Type": "AWS::S3::BucketPolicy",
       "Properties": {
-        "Bucket": { "Ref": "VPTestTrailBucket" },
+        "Bucket": {
+          "Ref": "VPTestTrailBucket"
+        },
         "PolicyDocument": {
           "Version": "2012-10-17",
           "Statement": [
             {
               "Sid": "AWSCloudTrailAclCheck",
               "Effect": "Allow",
-              "Principal": { "Service": "cloudtrail.amazonaws.com" },
+              "Principal": {
+                "Service": "cloudtrail.amazonaws.com"
+              },
               "Action": "s3:GetBucketAcl",
-              "Resource": { "Fn::Sub": "arn:aws:s3:::${TrailBucketName}" }
+              "Resource": {
+                "Fn::Sub": "arn:aws:s3:::${TrailBucketName}"
+              }
             },
             {
               "Sid": "AWSCloudTrailWrite",
               "Effect": "Allow",
-              "Principal": { "Service": "cloudtrail.amazonaws.com" },
+              "Principal": {
+                "Service": "cloudtrail.amazonaws.com"
+              },
               "Action": "s3:PutObject",
-              "Resource": { "Fn::Sub": "arn:aws:s3:::${TrailBucketName}/AWSLogs/*" },
+              "Resource": {
+                "Fn::Sub": "arn:aws:s3:::${TrailBucketName}/AWSLogs/*"
+              },
               "Condition": {
                 "StringEquals": {
                   "s3:x-amz-acl": "bucket-owner-full-control"
@@ -51,17 +72,27 @@
     },
     "VPTestTrail": {
       "Type": "AWS::CloudTrail::Trail",
-      "DependsOn": ["VPTestTrailBucketPolicy"],
+      "DependsOn": [
+        "VPTestTrailBucketPolicy"
+      ],
       "Properties": {
         "TrailName": "vp-test-trail",
-        "S3BucketName": { "Ref": "VPTestTrailBucket" },
+        "S3BucketName": {
+          "Ref": "VPTestTrailBucket"
+        },
         "IsLogging": true,
         "IsMultiRegionTrail": false,
         "EnableLogFileValidation": false,
         "IncludeGlobalServiceEvents": false,
         "Tags": [
-          { "Key": "Environment", "Value": "test" },
-          { "Key": "ManagedBy", "Value": "vectorplane-e2e-test" }
+          {
+            "Key": "Environment",
+            "Value": "test"
+          },
+          {
+            "Key": "ManagedBy",
+            "Value": "vectorplane-e2e-test"
+          }
         ]
       }
     }
