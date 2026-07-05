@@ -66,7 +66,7 @@
       "Properties": {
         "DBInstanceClass": "db.t3.micro",
         "Engine": "postgres",
-        "EngineVersion": "14.15",
+        "EngineVersion": "14.22",
         "MasterUsername": "pgdbadmin",
         "MasterUserPassword": {
           "Ref": "DBMasterPassword"
